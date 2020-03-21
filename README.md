@@ -5,7 +5,7 @@ A simple Docker container building system for developing SW for STM32
 ## Clone
 
 ```sh
-git clone https://github.com/risapav/FrontWebApp && cd FrontWebApp
+git clone https://github.com/risapav/docker_stm32 && docker_stm32
 ```
 
 ## Build Docker container
