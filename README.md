@@ -22,3 +22,12 @@ Run Docker inside project directory. ST-link dongle should be plugged in USB.
 ```sh
 docker run --rm --privileged -v /dev/bus/usb:/dev/bus/usb -v $PWD:/project -w /project -it stm32
 ```
+## Inside container try run this:
+
+```sh
+[root@599a1acb72f3 project]# arm-none-eabi-cpp --version
+[root@599a1acb72f3 project]# st-flash --version
+[root@599a1acb72f3 project]# make -version
+[root@599a1acb72f3 project]# cmake -version
+[root@599a1acb72f3 project]# make && make flash
+```
