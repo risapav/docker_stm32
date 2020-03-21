@@ -35,4 +35,4 @@ ENV PATH="${TOOLCHAIN_PATH}/bin:${PATH}"
 # Change workdir
 WORKDIR /build
 
-CMD ["/bin/bash"]
+#CMD ["/bin/bash"]
