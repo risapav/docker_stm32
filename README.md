@@ -8,4 +8,6 @@ docker build -t stm32 .
 
 ## Run stm32 environment
 
-docker run --rm -it --privileged -v /dev/bus/usb:/dev/bus/usb -v $(PWD):/esp/project stm32 /bin/bash
+Run Docker inside project directory. ST-link dongle should be plugged in USB.
+
+docker run --rm --privileged -v /dev/bus/usb:/dev/bus/usb -v $PWD:/project -w /project -it stm32
