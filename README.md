@@ -20,7 +20,7 @@ docker build -t stm32 .
 Run Docker inside project directory. ST-link dongle should be plugged in USB.
 
 ```sh
-docker run --rm --privileged -v /dev/bus/usb:/dev/bus/usb -v $PWD:/project -w /project -it stm32
+docker run --rm --privileged -p 4500:4500 -v /dev/bus/usb:/dev/bus/usb -v $PWD:/project -w /project -it stm32
 ```
 ## Inside container try run this:
 
@@ -31,3 +31,24 @@ docker run --rm --privileged -v /dev/bus/usb:/dev/bus/usb -v $PWD:/project -w /p
 [root@599a1acb72f3 project]# cmake -version
 [root@599a1acb72f3 project]# make && make flash
 ```
+## GDB, remote GDB
+
+1. plug in ST-link dongle into USB
+2. run terminal and invoke:
+```sh
+docker run --rm --privileged -p 4500:4500 -v /dev/bus/usb:/dev/bus/usb -v $PWD:/project -w /project -it stm32
+```
+3. inside container run 
+```sh
+/project # st-util -p 4500
+```
+4. open second terminal and run inside:
+```sh
+$ gdb
+```
+5. 
+```sh
+(gdb) target remote localhost:4500
+```
+
+
