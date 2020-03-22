@@ -38,15 +38,16 @@ docker run --rm --privileged -p 4500:4500 -v /dev/bus/usb:/dev/bus/usb -v $PWD:/
 ```sh
 docker run --rm --privileged -p 4500:4500 -v /dev/bus/usb:/dev/bus/usb -v $PWD:/project -w /project -it stm32
 ```
-3. inside container run 
+3. inside container run (Target machine)
+https://github.com/texane/stlink
 ```sh
-/project # st-util -p 4500
+/project # st-util -p 4500 --stlink_version=2 --multi
 ```
-4. open second terminal and run inside:
+4. open second terminal (Host machine) and run inside:
 ```sh
 $ gdb
 ```
-5. 
+5. put command to gdb (Host machine)
 ```sh
 (gdb) target remote localhost:4500
 ```
