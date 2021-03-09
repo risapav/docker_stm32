@@ -6,18 +6,18 @@ A simple Docker container, prepared for developing and building apps, using cros
 
 Make sure git is installed.
 ```sh
-git clone https://github.com/risapav/docker_stm32 && docker_stm32
+git clone https://github.com/risapav/docker_stm32 && cd docker_stm32
 ```
 
 ## Build Docker container
 
-### It is very easy:
+It is very easy:
 
 ```sh
 docker build -t stm32 .
 ```
 
-### or:
+or:
 
 ```sh
 docker build https://github.com/risapav/stm32_app.git -t stm32
@@ -32,7 +32,7 @@ docker run --rm --privileged -p 4500:4500 -v /dev/bus/usb:/dev/bus/usb -v $PWD:/
 ```
 ## Check if environment works properly
 
-### Inside container try run this:
+Inside container try run this:
 
 ```sh
 [root@599a1acb72f3 project]# arm-none-eabi-cpp --version
