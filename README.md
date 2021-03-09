@@ -20,7 +20,7 @@ docker build -t stm32 .
 or:
 
 ```sh
-docker build https://github.com/risapav/stm32_app.git -t stm32
+docker build https://github.com/risapav/docker_stm32.git -t stm32
 ```
 
 ## Run stm32 environment
