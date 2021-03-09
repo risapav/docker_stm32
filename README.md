@@ -1,5 +1,5 @@
 # docker_stm32
-A simple Docker container building system for developing SW for STM32
+A simple Docker container, prepared for developing and building apps, using crosscompiling for STM32
 
 
 ## Clone
@@ -11,8 +11,16 @@ git clone https://github.com/risapav/docker_stm32 && docker_stm32
 
 ## Build Docker container
 
+### It is very easy:
+
 ```sh
 docker build -t stm32 .
+```
+
+### or:
+
+```sh
+docker build https://github.com/risapav/stm32_app.git -t stm32
 ```
 
 ## Run stm32 environment
@@ -22,7 +30,9 @@ Run Docker inside project directory. ST-link dongle should be plugged in USB.
 ```sh
 docker run --rm --privileged -p 4500:4500 -v /dev/bus/usb:/dev/bus/usb -v $PWD:/project -w /project -it stm32
 ```
-## Inside container try run this:
+## Check if environment works properly
+
+### Inside container try run this:
 
 ```sh
 [root@599a1acb72f3 project]# arm-none-eabi-cpp --version
@@ -31,6 +41,7 @@ docker run --rm --privileged -p 4500:4500 -v /dev/bus/usb:/dev/bus/usb -v $PWD:/
 [root@599a1acb72f3 project]# cmake -version
 [root@599a1acb72f3 project]# make && make flash
 ```
+
 ## GDB, remote GDB
 
 1. plug in ST-link dongle into USB
