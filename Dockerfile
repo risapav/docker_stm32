@@ -22,7 +22,7 @@ ARG TOOLCHAIN_TARBALL_URL="https://developer.arm.com/-/media/Files/downloads/gnu
 ARG TOOLCHAIN_PATH=${TOOLS_PATH}/toolchain
 RUN wget ${TOOLCHAIN_TARBALL_URL} \
 	&& export TOOLCHAIN_TARBALL_FILENAME=$(basename "${TOOLCHAIN_TARBALL_URL}") \
-	&& tar -xvf ${TOOLCHAIN_TARBALL_FILENAME} \
+	&& tar -xvf ${TOOLCHAIN_TARBALL_FILENAME} --strip 1 -C /opt/gcc-arm  \
 	&& mv `tar -tf ${TOOLCHAIN_TARBALL_FILENAME} | head -1` ${TOOLCHAIN_PATH} \
 	&& rm -rf ${TOOLCHAIN_PATH}/share/doc \
 	&& rm ${TOOLCHAIN_TARBALL_FILENAME}
