@@ -21,7 +21,7 @@ RUN apk --no-cache add ca-certificates wget make cmake stlink \
 ARG TOOLCHAIN_TARBALL_URL="~/Stiahnuté/gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux.tar.bz2"
 
 ARG TOOLCHAIN_PATH=${TOOLS_PATH}/toolchain
-RUN wget ${TOOLCHAIN_TARBALL_URL} \
+RUN wget -i ${TOOLCHAIN_TARBALL_URL} \
 	&& export TOOLCHAIN_TARBALL_FILENAME=$(basename "${TOOLCHAIN_TARBALL_URL}") \
 	&& tar -xvf ${TOOLCHAIN_TARBALL_FILENAME} --strip 1 -C /opt/gcc-arm  \
 	&& mv `tar -tf ${TOOLCHAIN_TARBALL_FILENAME} | head -1` ${TOOLCHAIN_PATH} \
