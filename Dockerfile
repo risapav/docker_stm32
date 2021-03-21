@@ -5,9 +5,10 @@ FROM frolvlad/alpine-glibc:latest
 MAINTAINER Pavol Risa "risapav at gmail"
 
 # Prepare directory for tools
+ARG GCC_PATH=/opt/gcc-arm
 ARG TOOLS_PATH=/tools
 ARG TOOLCHAIN_PATH=${TOOLS_PATH}/toolchain
-RUN mkdir ${TOOLS_PATH}
+RUN mkdir -p ${TOOLCHAIN_PATH}
 WORKDIR ${TOOLS_PATH}
 
 # Install basic programs and custom glibc
@@ -31,26 +32,19 @@ RUN apk --update --no-cache add \
     grep -m1 '^\[[0-9]\+\].*downloads.*gcc-arm-none-eabi.*linux\.tar\.bz2' | \
     sed -e 's/^\[[0-9]\+\] //')" && \	
 	echo ${GCCARM_LINK} && \
-	echo "Hi, I'm sleeping for 30 seconds... Please put previous URL into browser and press ENTER" && \
-	sleep 30  && \	
+	echo "Hi, I'm sleeping for 20 seconds... Please put previous URL into browser and press ENTER" && \
+	sleep 20  && \	
 	wget -O /tmp/gcc-arm-none-eabi.tar.bz2 ${GCCARM_LINK} && \
 # unpack the archive to a neatly named target directory
-	mkdir gcc-arm-none-eabi && \
-	tar xjfv /tmp/gcc-arm-none-eabi.tar.bz2 -C gcc-arm-none-eabi --strip-components 1 && \
+	mkdir -p ${GCC_PATH} && \
+	tar xjfv /tmp/gcc-arm-none-eabi.tar.bz2 -C ${GCC_PATH} --strip-components 1 && \
 # remove the archive
 	rm /tmp/gcc-arm-none-eabi.tar.bz2 && \
-#	wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
-#	wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.33-r0/glibc-2.33-r0.apk && \
-#	apk add glibc-2.33-r0.apk	&& \
-#    rm -rf /usr/local/share/doc && \
+# link to tool chain
+	cd ${TOOLCHAIN_PATH} && ln -s ${GCC_PATH}/* . && \
 	apk del build-dependencies
 
-#apk --no-cache add ca-certificates wget make cmake stlink gcc-arm-none-eabi \
-#	&& wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub \
-#	&& wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.33-r0/glibc-2.33-r0.apk \
-#	&& apk add glibc-2.33-r0.apk
-
-ENV PATH="${TOOLCHAIN_PATH}/bin:${PATH}"
+ENV PATH="${TOOLCHAIN_PATH}/bin:${GCC_PATH}/bin:${PATH}"
 
 # Change workdir
 WORKDIR /build
