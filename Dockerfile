@@ -1,5 +1,11 @@
 #STM32 development tools
 
+# user and group settings
+ARG UID
+ARG GID
+ARG USERNAME
+ARG GROUPNAME
+
 # target system
 # AArch32 bare-metal target (arm-none-eabi)
 ARG TARGET=arm-none-eabi
