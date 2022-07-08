@@ -16,11 +16,11 @@ It is very easy:
 ```sh
 docker build \
   -t stm32 \
-  --build-arg UID=$(UID) \
-	--build-arg GID=$(GID) \
-	--build-arg USERNAME=$(USER) \
-	--build-arg GROUPNAME=$(GROUP) \
-	.
+  --build-arg UID=$UID \
+  --build-arg GID=$GID \
+  --build-arg USERNAME=$USER \
+  --build-arg GROUPNAME=$GROUP \
+  .
 ```
 
 or:
@@ -28,10 +28,10 @@ or:
 ```sh
 docker build https://github.com/risapav/docker_stm32.git \
   -t stm32 \
-  --build-arg UID=$(UID) \
-  --build-arg GID=$(GID) \
-  --build-arg USERNAME=$(USER) \
-  --build-arg GROUPNAME=$(GROUP) \
+  --build-arg UID=$UID \
+  --build-arg GID=$GID \
+  --build-arg USERNAME=$USER \
+  --build-arg GROUPNAME=$GROUP \
   .
 ```
 
