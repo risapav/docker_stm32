@@ -75,12 +75,11 @@ RUN apt-get update \
         ccache \
         stlink-tools \ 
     && rm -rf /var/lib/apt/lists/* \
-    && ls -la -R \
     && ln -s ${TOOLCHAIN}/bin/* /usr/local/bin \
-    groupadd --gid $GID $GROUPNAME \
-    useradd --uid $UID --gid $GID $USERNAME \
-    usermod --append --groups $GROUPNAME $USERNAME \
-    usermod --shell /bin/bash $USERNAME
+    && groupadd -g ${GID} ${GROUPNAME} \
+    && useradd -u ${UID} -g ${GID} ${USERNAME} \
+    && usermod --append --groups ${GROUPNAME} ${USERNAME} \
+    && usermod --shell /bin/bash ${USERNAME}
 
 ENV PATH=${TOOLCHAIN}/bin:$PATH \
     LD_LIBRARY_PATH=${TOOLCHAIN}/lib:$LD_LIBRARY_PATH \
@@ -100,4 +99,4 @@ WORKDIR /build
 
 #CMD ["/bin/bash"]
 
-USER $USERNAME
+USER ${USERNAME}
