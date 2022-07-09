@@ -78,8 +78,8 @@ endif
 
 CONTAINER_TOOL ?= docker
 CONTAINER_FILE := Dockerfile
-IMAGE_NAME := fedora-arm-embedded-dev
-CONTAINER_NAME := fedora-arm-embedded-dev
+IMAGE_NAME := cross-arm-dev
+CONTAINER_NAME := cross-arm-dev
 
 NEED_IMAGE = $(shell $(CONTAINER_TOOL) image inspect $(IMAGE_NAME) 2> /dev/null > /dev/null || echo image)
 # usefull if you have a always running container in the background: NEED_CONTAINER = $(shell $(CONTAINER_TOOL) container inspect $(CONTAINER_NAME) 2> /dev/null > /dev/null || echo container)
