@@ -1,6 +1,6 @@
 .PHONY: all build-container format-container shell image build-container clean-image clean-all
 ############################### Native Makefile ###############################
-
+# pokus
 PROJECT_NAME ?= firmware
 BUILD_DIR ?= build
 FIRMWARE := $(BUILD_DIR)/$(PROJECT_NAME).bin
