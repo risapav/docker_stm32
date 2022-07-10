@@ -1,4 +1,6 @@
-.PHONY: all build-container format-container shell image build-container clean-image clean-all
+.PHONY: all format-container shell image build-container 
+.PHONY: clean-image clean-all
+.PHONY: help
 ############################### Native Makefile ###############################
 # pokus
 PROJECT_NAME ?= firmware
@@ -56,7 +58,7 @@ CONTAINER_RUN = $(WIN_PREFIX) $(CONTAINER_TOOL) run \
 				$(IMAGE_NAME)
 
 build-container: $(NEED_IMAGE)
-	$(CONTAINER_RUN) bash -lc 'make -j$(shell nproc)'
+#	$(CONTAINER_RUN) bash -lc 'make -j$(shell nproc)'
 
 format-container:
 	$(CONTAINER_RUN) bash -lc 'make format -j$(shell nproc)'
@@ -79,3 +81,21 @@ clean-image:
 	$(CONTAINER_TOOL) image rmi -f $(IMAGE_NAME) 2> /dev/null > /dev/null || true
 
 clean-all: clean-image
+
+help:
+	@echo "Commands for working with docker images:"
+	@echo "  build-container    - Build stm32 container"
+	@echo "  format-container   - Upload stm32 to hub.docker.com"
+	@echo "  clean-image        - Remove all docker stm32 images"
+	@echo "  clean-all          - Remove all docker stm32 containers"
+	@echo "  shell              - Bash prompt"
+	@echo
+	@echo "Variables:"
+	@echo "  PROJECT_NAME=$(PROJECT_NAME firmware)"
+	@echo "  BUILD_DIR=$(BUILD_DIR build)"
+	@echo "  FIRMWARE=$(FIRMWARE)"
+	@echo "  BUILD_TYPE=$(BUILD_TYPE)"
+	@echo "  UID=$(UID)"
+	@echo "  GID=$(GID)"
+	@echo "  USER=$(USER)"
+	@echo "  GROUP=$(GROUP)"
