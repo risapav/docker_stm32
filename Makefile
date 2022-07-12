@@ -81,7 +81,7 @@ clean-image:
 clean-all: clean-image
 
 help:
-	@echo "Commands for working with docker images:"
+	@echo "Commands for working with $(MAKER_NAME):"
 	@echo "  build-container    - Build $(MAKER_NAME) container"
 	@echo "  format-container   - Upload $(MAKER_NAME) to hub.docker.com"
 	@echo "  clean-image        - Remove all $(MAKER_NAME) images"
