@@ -2,6 +2,7 @@
 .PHONY: clean-image clean-all
 .PHONY: help
 ############################### Native Makefile ###############################
+export MAKER_NAME ?= "docker_stm32"
 export ROOT_DIR ?= ${PWD}
 
 export PLATFORM ?= $(if $(OS),$(OS),$(shell uname -s))
@@ -81,19 +82,20 @@ clean-all: clean-image
 
 help:
 	@echo "Commands for working with docker images:"
-	@echo "  build-container    - Build stm32 container"
-	@echo "  format-container   - Upload stm32 to hub.docker.com"
-	@echo "  clean-image        - Remove all docker stm32 images"
-	@echo "  clean-all          - Remove all docker stm32 containers"
+	@echo "  build-container    - Build $(MAKER_NAME) container"
+	@echo "  format-container   - Upload $(MAKER_NAME) to hub.docker.com"
+	@echo "  clean-image        - Remove all $(MAKER_NAME) images"
+	@echo "  clean-all          - Remove all $(MAKER_NAME) containers"
 	@echo "  shell              - Bash prompt"
 	@echo
-	@echo "Variables:"
+	@echo "Constants:"
 	@echo "  PLATFORM=$(PLATFORM)"
 	@echo "  CONTAINER_TOOL=$(CONTAINER_TOOL)"
 	@echo "  CONTAINER_FILE=$(CONTAINER_FILE)"
 	@echo "  CONTAINER_NAME=$(CONTAINER_NAME)"
 	@echo "  IMAGE_NAME=$(IMAGE_NAME)"
 	@echo
+	@echo "Variables:"
 	@echo "  ROOT_DIR=$(ROOT_DIR)"
 	@echo "  WORKDIR_VOLUME=$(WORKDIR_VOLUME)"
 	@echo
