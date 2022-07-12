@@ -2,7 +2,7 @@
 .PHONY: clean-image clean-all
 .PHONY: help
 ############################### Native Makefile ###############################
-export MAKER_NAME ?= "docker_stm32"
+MAKER_NAME ?= "docker_stm32"
 export ROOT_DIR ?= ${PWD}
 
 export PLATFORM ?= $(if $(OS),$(OS),$(shell uname -s))
