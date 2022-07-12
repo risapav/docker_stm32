@@ -2,12 +2,9 @@
 .PHONY: clean-image clean-all
 .PHONY: help
 ############################### Native Makefile ###############################
-# pokus
-PROJECT_NAME ?= firmware
-BUILD_DIR ?= build
-FIRMWARE := $(BUILD_DIR)/$(PROJECT_NAME).bin
-BUILD_TYPE ?= Debug
-PLATFORM = $(if $(OS),$(OS),$(shell uname -s))
+export ROOT_DIR ?= ${PWD}
+
+export PLATFORM ?= $(if $(OS),$(OS),$(shell uname -s))
 
 ifeq ($(PLATFORM),Windows_NT)
     BUILD_SYSTEM ?= MinGW Makefiles
@@ -24,18 +21,18 @@ all: build-container
 
 ################################## Container ##################################
 
-UID ?= $(shell id -u)
-GID ?= $(shell id -g)
-USER ?= $(shell id -un)
-GROUP ?= $(if $(filter $(PLATFORM), Windows_NT),$(shell id -un),$(shell id -gn))
+export UID ?= $(shell id -u)
+export GID ?= $(shell id -g)
+export USER ?= $(shell id -un)
+export GROUP ?= $(if $(filter $(PLATFORM), Windows_NT),$(shell id -un),$(shell id -gn))
 
 ifeq ($(PLATFORM),Windows_NT)
     WIN_PREFIX = winpty
     WORKDIR_PATH = "//workdir"
-    WORKDIR_VOLUME = "/$$(pwd -W):/workdir"
+    WORKDIR_VOLUME = "/$(ROOT_DIR):/$(WORKDIR_PATH)"
 else
     WORKDIR_PATH = /workdir
-    WORKDIR_VOLUME = "$$(pwd):/workdir"
+    WORKDIR_VOLUME = "$(ROOT_DIR):/$(WORKDIR_PATH)"
 endif
 
 CONTAINER_TOOL ?= docker
@@ -91,11 +88,17 @@ help:
 	@echo "  shell              - Bash prompt"
 	@echo
 	@echo "Variables:"
-	@echo "  PROJECT_NAME=$(PROJECT_NAME firmware)"
-	@echo "  BUILD_DIR=$(BUILD_DIR build)"
-	@echo "  FIRMWARE=$(FIRMWARE)"
-	@echo "  BUILD_TYPE=$(BUILD_TYPE)"
+	@echo "  PLATFORM=$(PLATFORM)"
+	@echo "  CONTAINER_TOOL=$(CONTAINER_TOOL)"
+	@echo "  CONTAINER_FILE=$(CONTAINER_FILE)"
+	@echo "  CONTAINER_NAME=$(CONTAINER_NAME)"
+	@echo "  IMAGE_NAME=$(IMAGE_NAME)"
+	@echo
+	@echo "  ROOT_DIR=$(ROOT_DIR)"
+	@echo "  WORKDIR_VOLUME=$(WORKDIR_VOLUME)"
+	@echo
 	@echo "  UID=$(UID)"
 	@echo "  GID=$(GID)"
 	@echo "  USER=$(USER)"
 	@echo "  GROUP=$(GROUP)"
+	@echo
