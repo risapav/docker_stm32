@@ -21,7 +21,7 @@ endif
 all: build-container
 
 ################################## Container ##################################
-SCRIPT ?= "bash -l"
+export SCRIPT ?= 'bash -l'
 
 export UID ?= $(shell id -u)
 export GID ?= $(shell id -g)
@@ -58,29 +58,6 @@ CONTAINER_RUN = $(WIN_PREFIX) $(CONTAINER_TOOL) run \
 
 
 ####################################### scripts ##########################
-docker-run-local: test-docker $(DOCKER_CCACHE)
-	@echo "CURDIR=$(CURDIR) topdir=$(top) docker_build=$(DOCKER_BUILD_DIR)"
-	$(DOCKER) run \
-		-it \
-		-u $(UID):$(GID) \
-		-e COLUMNS=$(shell tput cols) \
-		-e LINES=$(shell tput lines) \
-		-e TERM=$(TERM) \
-		-v $(HOST_ROOT_DIR):$(DOCKER_ROOT_DIR) \
-		-v $(HOST_BUILD_DIR):$(DOCKER_BUILD_DIR) \
-		--rm coreboot/coreboot-sdk:$(COREBOOT_IMAGE_TAG) \
-		$(SCRIPT)
-
-docker-shell: USER=coreboot
-docker-shell: test-docker
-	$(DOCKER) run -u $(USER) -it  \
-		-u $(UID):$(GID) \
-		-v $(HOST_ROOT_DIR):$(DOCKER_ROOT_DIR) \
-		-v $(HOST_BUILD_DIR):$(DOCKER_BUILD_DIR) \
-		-e COLUMNS=$(shell tput cols) -e LINES=$(shell tput lines) -e TERM=$(TERM) \
-		-w /home/coreboot \
-		--rm coreboot/coreboot-sdk:$(COREBOOT_IMAGE_TAG) \
-		$(SCRIPT)
 
 build-container: $(NEED_IMAGE)
 #	$(CONTAINER_RUN) bash -lc 'make -j$(shell nproc)'
@@ -88,8 +65,9 @@ build-container: $(NEED_IMAGE)
 format-container:
 	$(CONTAINER_RUN) bash -lc 'make format -j$(shell nproc)'
 
-shell:
-	$(CONTAINER_RUN) $(SCRIPT)
+shell:	
+	@echo "SCRIPT=$(SCRIPT)"
+	$(CONTAINER_RUN) $(shell $(SCRIPT))
 
 image: $(CONTAINER_FILE)
 	$(CONTAINER_TOOL) build \
