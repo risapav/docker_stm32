@@ -59,7 +59,7 @@ CONTAINER_RUN = $(WIN_PREFIX) $(CONTAINER_TOOL) run \
 				--hostname $(CONTAINER_NAME) \
 				$(IMAGE_NAME)
 
-####################################### scripts ##########################
+####################################### scripts outside docker ##########################
 
 build-container: $(NEED_IMAGE)
 #	$(CONTAINER_RUN) bash -lc 'make -j$(shell nproc)'
