@@ -38,6 +38,8 @@ else
     WORKDIR_VOLUME = "$(ROOT_DIR):/$(WORKDIR_PATH)"
 endif
 
+BUILD_DIR:="$(WORKDIR_PATH)/build"
+
 CONTAINER_TOOL ?= docker
 CONTAINER_FILE := Dockerfile
 IMAGE_NAME := cross-arm-dev
@@ -93,6 +95,12 @@ help:
 	@echo "  clean-all          - Remove all $(MAKER_NAME) containers"
 	@echo "  shell              - Bash prompt"
 	@echo
+	@echo "Commands for working with $(MAKER_NAME) inside container:"
+	@echo "  build              - Build Project"
+	@echo "  clean              - Remove $(BUILD_DIR)"
+	@echo "  flash              - Flash Firmware"
+	@echo "  test               - test TOOLCHAIN"
+	@echo
 	@echo "Constants:"
 	@echo "  PLATFORM=$(PLATFORM)"
 	@echo "  CONTAINER_TOOL=$(CONTAINER_TOOL)"
@@ -111,9 +119,8 @@ help:
 	@echo
 	
 ####################################### scripts inside docker ##########################
-BUILD_DIR:="$(WORKDIR_PATH)/build"
+
 export PROJECT_NAME ?= firmware
-export BUILD_DIR ?= build
 export FIRMWARE := $(BUILD_DIR)/$(PROJECT_NAME).bin
 export BUILD_TYPE ?= Debug
 
