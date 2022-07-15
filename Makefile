@@ -1,6 +1,7 @@
 .PHONY: all format-container shell image build-container 
 .PHONY: clean-image clean-all
 .PHONY: help
+.PHONY: test build
 ############################### Native Makefile ###############################
 MAKER_NAME ?= "docker_stm32"
 export ROOT_DIR ?= ${PWD}
@@ -56,7 +57,6 @@ CONTAINER_RUN = $(WIN_PREFIX) $(CONTAINER_TOOL) run \
 				--hostname $(CONTAINER_NAME) \
 				$(IMAGE_NAME)
 
-
 ####################################### scripts ##########################
 
 build-container: $(NEED_IMAGE)
@@ -109,3 +109,38 @@ help:
 	@echo "  USER=$(USER)"
 	@echo "  GROUP=$(GROUP)"
 	@echo
+	
+####################################### scripts inside docker ##########################
+BUILD_DIR:="$(WORKDIR_PATH)/build"
+export PROJECT_NAME ?= firmware
+export BUILD_DIR ?= build
+export FIRMWARE := $(BUILD_DIR)/$(PROJECT_NAME).bin
+export BUILD_TYPE ?= Debug
+
+build:
+	@mkdir -p $(BUILD_DIR)
+	@cmake \
+		-G "$(BUILD_SYSTEM)" \
+		-B$(BUILD_DIR) \
+		-DPROJECT_NAME=$(PROJECT_NAME) \
+		-DCMAKE_BUILD_TYPE=$(BUILD_TYPE) \
+		-DCMAKE_TOOLCHAIN_FILE=$(WORKDIR_PATH)/cmake/gcc-arm-none-eabi.cmake \
+		-DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+		-DDUMP_ASM=OFF
+	@cd $(BUILD_DIR)
+	@make
+
+# 		-DCMAKE_TOOLCHAIN_FILE=cmake/gcc-arm-none-eabi.cmake \
+#		-DCMAKE_TOOLCHAIN_FILE=cmake/stm32_cross.cmake \
+
+clean:
+	@rm -rf $(BUILD_DIR)
+
+flash:
+	@st-flash write $(FIRMWARE) 0x8000000
+
+test:
+	@make -version
+	@cmake -version
+	@arm-none-eabi-cpp --version
+	@st-flash --version
