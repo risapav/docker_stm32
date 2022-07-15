@@ -1,7 +1,7 @@
 .PHONY: all format-container shell image build-container 
 .PHONY: clean-image clean-all
 .PHONY: help
-.PHONY: test build
+.PHONY: test build clean flash
 ############################### Native Makefile ###############################
 MAKER_NAME ?= "docker_stm32"
 export ROOT_DIR ?= ${PWD}
