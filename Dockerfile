@@ -3,9 +3,9 @@
 # target system
 # AArch32 bare-metal target (arm-none-eabi)
 # TODO change to your ARM gcc toolchain path
-ARG TOOLCHAIN_PREFIX:=arm-none-eabi
-ARG TOOLCHAIN_ROOT:/opt
-ARG TOOLCHAIN_PATH:=${TOOLCHAIN_ROOT}/${TOOLCHAIN_PREFIX}
+ARG TOOLCHAIN_PREFIX=arm-none-eabi
+ARG TOOLCHAIN_ROOT=/opt
+ARG TOOLCHAIN_PATH=${TOOLCHAIN_ROOT}/${TOOLCHAIN_PREFIX}
 
 
 # user and group settings
@@ -27,7 +27,8 @@ ARG TOOLS_ZIP=${TOOLCHAIN_PREFIX}.tar.xz
 ARG TOOLS_LINK="https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/downloads"
 
 # install build tools
-RUN mkdir -p ${TOOLCHAIN_PATH} \  
+RUN echo "--> TOOLCHAIN_PATH=${TOOLCHAIN_PATH} " \
+    && mkdir -p ${TOOLCHAIN_PATH} \  
     && apt-get update \
     && apt-get install -y \
         wget \

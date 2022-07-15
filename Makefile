@@ -110,6 +110,7 @@ help:
 	@echo
 	@echo "Variables:"
 	@echo "  ROOT_DIR=$(ROOT_DIR)"
+	@echo "  BUILD_DIR=$(BUILD_DIR)"
 	@echo "  WORKDIR_VOLUME=$(WORKDIR_VOLUME)"
 	@echo
 	@echo "  UID=$(UID)"
@@ -126,6 +127,7 @@ export BUILD_TYPE ?= Debug
 
 build:
 	@mkdir -p $(BUILD_DIR)
+	@echo $(PWD)
 	@cmake \
 		-G "$(BUILD_SYSTEM)" \
 		-B$(BUILD_DIR) \
@@ -133,9 +135,9 @@ build:
 		-DCMAKE_BUILD_TYPE=$(BUILD_TYPE) \
 		-DCMAKE_TOOLCHAIN_FILE=$(WORKDIR_PATH)/cmake/gcc-arm-none-eabi.cmake \
 		-DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-		-DDUMP_ASM=OFF
-	@cd $(BUILD_DIR)
-	@make
+		-DDUMP_ASM=OFF \
+		..
+	@cd $(BUILD_DIR) && make
 
 # 		-DCMAKE_TOOLCHAIN_FILE=cmake/gcc-arm-none-eabi.cmake \
 #		-DCMAKE_TOOLCHAIN_FILE=cmake/stm32_cross.cmake \
@@ -151,3 +153,7 @@ test:
 	@cmake -version
 	@arm-none-eabi-cpp --version
 	@st-flash --version
+	@st-info --probe
+	@st-info --serial
+	@st-info --hla-serial
+
