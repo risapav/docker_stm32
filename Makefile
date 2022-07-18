@@ -39,6 +39,7 @@ else
 endif
 
 BUILD_DIR:="$(WORKDIR_PATH)/build"
+RSA_KEY ?= $(shell cat ~/.ssh/id_rsa.pub)
 
 CONTAINER_TOOL ?= docker
 CONTAINER_FILE := Dockerfile
@@ -72,9 +73,11 @@ shell:
 	$(CONTAINER_RUN) $(shell $(SCRIPT))
 
 image: $(CONTAINER_FILE)
+	@echo "RSA_KEY=$(RSA_KEY)"
 	$(CONTAINER_TOOL) build \
 		-t $(IMAGE_NAME) \
 		-f=$(CONTAINER_FILE) \
+		--build-arg SSH_PUB_KEY="$(RSA_KEY)" \
 		--build-arg UID=$(UID) \
 		--build-arg GID=$(GID) \
 		--build-arg USERNAME=$(USER) \

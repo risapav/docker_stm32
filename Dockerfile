@@ -1,5 +1,8 @@
 #STM32 development tools
 
+# supply your pub key via `--build-arg ssh_pub_key="$(cat ~/.ssh/id_rsa.pub)"` when running `docker build`
+ARG SSH_PUB_KEY
+
 # target system
 # AArch32 bare-metal target (arm-none-eabi)
 # TODO change to your ARM gcc toolchain path
@@ -50,7 +53,9 @@ RUN GCCARM_LINK="$(w3m -o display_link_number=1 -dump $TOOLS_LINK  | \
     && wget --content-disposition -q --show-progress --progress=bar:force:noscroll -O /tmp/${TOOLS_ZIP} ${GCCARM_LINK} 
 
 RUN tar -xvf /tmp/${TOOLS_ZIP} -C ${TOOLCHAIN_PATH} --strip-components=1
-    
+
+# ssh keys
+WORKDIR /tmp   
 
 # stage 2
 FROM debian:stable-slim as gnu-cross-toolchain
@@ -68,8 +73,15 @@ ARG TOOLCHAIN_PATH
 
 COPY --from=builder ${TOOLCHAIN_ROOT} ${TOOLCHAIN_ROOT}
 # Install basic programs and custom glibc
+
+# install apps
 RUN apt-get update \
     && apt-get install -y \
+        # open ssh server 
+        openrc \
+        openssh-server \
+        mc \
+        # toolchain
         python3 \
         make \
         cmake \
@@ -78,10 +90,32 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
     && ln -s ${TOOLCHAIN}/bin/* /usr/local/bin \
     && groupadd -g ${GID} ${GROUPNAME} \
-    && useradd -u ${UID} -g ${GID} ${USERNAME} \
+    && useradd -m -u ${UID} -g ${GID} ${USERNAME} \
     && usermod --append --groups ${GROUPNAME} ${USERNAME} \
-    && usermod --shell /bin/bash ${USERNAME}
+    && usermod --shell /bin/bash ${USERNAME} \
+    # create user SSH configuration
+# root access to ssh server
+    && mkdir -p root/.ssh \
+    # only this user should be able to read this folder (it may contain private keys)
+    && chmod 0700 root/.ssh \
+    # unlock the user
+    && passwd -u root \
+    && echo "$SSH_PUB_KEY" > /root/.ssh/authorized_keys \
+# sshd server
+#    && mkdir /var/run/sshd  \
+#    && echo 'root:root' | chpasswd \
+#    && sed -ri 's/^#?PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config \
+#    && sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config \
+#    && mkdir /root/.ssh \
+    && cd /etc/ssh/ && ssh-keygen -A \
+    && echo "PasswordAuthentication no" >> /etc/ssh/sshd_config \
+    && mkdir -p /run/openrc \
+    && touch /run/openrc/softlevel \
+    && mkdir -p /home/${USERNAME}/.ssh  \
+    && echo "$SSH_PUB_KEY" > /home/${USERNAME}/.ssh/authorized_keys \
+    && echo "export VISIBLE=now" >> /etc/profile 
 
+#ENV NOTVISIBLE "in users profile" \
 ENV PATH=${TOOLCHAIN_PATH}/bin:$PATH \
     LD_LIBRARY_PATH=${TOOLCHAIN_PATH}/lib:$LD_LIBRARY_PATH \
     CC=${TOOLCHAIN_PREFIX}-gcc \
@@ -95,6 +129,13 @@ ENV PATH=${TOOLCHAIN_PATH}/bin:$PATH \
     LD=${TOOLCHAIN_PREFIX}-ld \
     FC=${TOOLCHAIN_PREFIX}-gfortran
 
-#CMD ["/bin/bash"]
+
 
 USER ${USERNAME}
+
+EXPOSE 22
+
+ENTRYPOINT service ssh start && bash
+#ENTRYPOINT ["/usr/sbin/sshd", "-c", "rc-status; rc-service sshd start"]
+CMD    ["/usr/sbin/sshd", "-D"]
+#CMD ["/bin/bash"]
