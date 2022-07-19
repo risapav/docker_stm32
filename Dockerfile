@@ -47,6 +47,7 @@ RUN echo "Build parameters --> TOOLCHAIN_PATH=${TOOLCHAIN_PATH}"; \
   tar -xvf /tmp/${TOOLS_ZIP} -C ${TOOLCHAIN_PATH} --strip-components=1;
 
 # stage 2
+# FROM https://github.com/risapav/docker_sshd.git as gnu-cross-toolchain
 FROM debian:stable-slim as gnu-cross-toolchain
 
 # user and group settings
