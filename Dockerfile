@@ -2,7 +2,6 @@
 
 # target system
 # AArch32 bare-metal target (arm-none-eabi)
-# TODO change to your ARM gcc toolchain path
 
 # prefixes arm-none-linux-gnueabihf arm-none-eabi aarch64-none-elf aarch64-none-linux-gnu aarch64_be-none-linux-gnu
 ARG TOOLCHAIN_PREFIX=arm-none-eabi
