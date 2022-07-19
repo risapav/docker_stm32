@@ -3,9 +3,14 @@
 # target system
 # AArch32 bare-metal target (arm-none-eabi)
 # TODO change to your ARM gcc toolchain path
+
+# prefixes arm-none-linux-gnueabihf arm-none-eabi aarch64-none-elf aarch64-none-linux-gnu aarch64_be-none-linux-gnu
 ARG TOOLCHAIN_PREFIX=arm-none-eabi
 ARG TOOLCHAIN_ROOT=/opt
 ARG TOOLCHAIN_PATH=${TOOLCHAIN_ROOT}/${TOOLCHAIN_PREFIX}
+
+# targer architecture x84_64 mingw-w64-i686 
+ARG TOOLCHAIN_HOST=x86_64
 
 # user and group settings
 ARG UID
@@ -42,7 +47,7 @@ RUN echo "Build parameters --> TOOLCHAIN_PATH=${TOOLCHAIN_PATH}"; \
   GCCARM_LINK="$(w3m -o display_link_number=1 -dump $TOOLS_LINK  | \
     sed -e 's/^\[[0-9]\+\] //' | \
     grep $TOOLS_ZIP | \
-    grep 'x86_64'  | \
+    grep $TOOLCHAIN_HOST  | \
     grep 'downloads'  | \
     grep -m1 'https:' )"; \
   wget --content-disposition -q --show-progress --progress=bar:force:noscroll -O /tmp/${TOOLS_ZIP} ${GCCARM_LINK}; \
