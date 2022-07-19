@@ -9,7 +9,7 @@ ARG TOOLCHAIN_PREFIX=arm-none-eabi
 ARG TOOLCHAIN_ROOT=/opt
 ARG TOOLCHAIN_PATH=${TOOLCHAIN_ROOT}/${TOOLCHAIN_PREFIX}
 
-# targer architecture x84_64 mingw-w64-i686 
+# targer architecture x84_64 mingw-w64-i686 aarch64 darwin-x86_64
 ARG TOOLCHAIN_HOST=x86_64
 
 # user and group settings
