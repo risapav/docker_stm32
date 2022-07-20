@@ -24,6 +24,7 @@ FROM debian:stable-slim as builder
 ARG TOOLCHAIN_PREFIX
 ARG TOOLCHAIN_ROOT
 ARG TOOLCHAIN_PATH
+ARG TOOLCHAIN_HOST
 
 # requested file     
 # gcc-arm-11.2-2022.02-x86_64-arm-none-eabi.tar.xz
@@ -40,21 +41,25 @@ RUN echo "Build parameters --> TOOLCHAIN_PATH=${TOOLCHAIN_PATH}"; \
     xz-utils \
     bzip2; \
   apt clean; \ 
-  mkdir -p ${TOOLCHAIN_PATH}; \ 
-  cd ${TOOLCHAIN_PATH}; \
+  mkdir -p ${TOOLCHAIN_PATH}; 
+  
+RUN  cd ${TOOLCHAIN_PATH}; \
+  echo "==========>>> ${TOOLCHAIN_PATH} ${TOOLS_ZIP} ${TOOLCHAIN_HOST}"; \
 # grab required toolchain
   GCCARM_LINK="$(w3m -o display_link_number=1 -dump $TOOLS_LINK  | \
     sed -e 's/^\[[0-9]\+\] //' | \
-    grep $TOOLS_ZIP | \
-    grep $TOOLCHAIN_HOST  | \
+    grep ${TOOLS_ZIP} | \
+    grep ${TOOLCHAIN_HOST}  | \
     grep 'downloads'  | \
     grep -m1 'https:' )"; \
+  echo "==========>>> ${GCCARM_LINK}"; \
   wget --content-disposition -q --show-progress --progress=bar:force:noscroll -O /tmp/${TOOLS_ZIP} ${GCCARM_LINK}; \
   tar -xvf /tmp/${TOOLS_ZIP} -C ${TOOLCHAIN_PATH} --strip-components=1;
 
 # stage 2
-# FROM https://github.com/risapav/docker_sshd.git as gnu-cross-toolchain
-FROM debian:stable-slim as gnu-cross-toolchain
+# FROM git@github.com:risapav/docker_sshd.git
+FROM risapav/docker_sshd
+# FROM debian:stable-slim as gnu-cross-toolchain
 
 # user and group settings
 ARG UID
