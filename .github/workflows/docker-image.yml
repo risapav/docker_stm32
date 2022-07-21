@@ -11,8 +11,8 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v3
-        
-      - name: Gihub test build  
+      - 
+        name: Gihub test build  
         run: docker build . --file Dockerfile --tag docker_stm32:$(date +%s)
       -
         name: Set up Docker Buildx
