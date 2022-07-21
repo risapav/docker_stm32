@@ -41,9 +41,8 @@ RUN echo "Build parameters --> TOOLCHAIN_PATH=${TOOLCHAIN_PATH}"; \
     xz-utils \
     bzip2; \
   apt clean; \ 
-  mkdir -p ${TOOLCHAIN_PATH}; 
-  
-RUN  cd ${TOOLCHAIN_PATH}; \
+  mkdir -p ${TOOLCHAIN_PATH}; \
+  cd ${TOOLCHAIN_PATH}; \
   echo "==========>>> ${TOOLCHAIN_PATH} ${TOOLS_ZIP} ${TOOLCHAIN_HOST}"; \
 # grab required toolchain
   GCCARM_LINK="$(w3m -o display_link_number=1 -dump $TOOLS_LINK  | \
@@ -84,7 +83,7 @@ RUN apt update && apt install -y \
     ccache \
     stlink-tools; \ 
   apt clean; \
-  ln -s ${TOOLCHAIN}/bin/* /usr/local/bin; \
+  ln -s ${TOOLCHAIN_PATH}/bin/* /usr/local/bin; \
   # add user
   groupadd -g ${GID} ${GROUPNAME}; \
   useradd -m -u ${UID} -g ${GID} ${USERNAME}; \
