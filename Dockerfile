@@ -33,6 +33,7 @@ ARG TOOLS_ZIP=${TOOLCHAIN_PREFIX}.tar.xz
 ARG TOOLS_LINK="https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/downloads"
 
 # install build tools
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN echo "Build parameters --> TOOLCHAIN_PATH=${TOOLCHAIN_PATH}"; \  
   apt update && apt install -y \
     wget \
@@ -57,7 +58,7 @@ RUN echo "Build parameters --> TOOLCHAIN_PATH=${TOOLCHAIN_PATH}"; \
 
 # stage 2
 # FROM git@github.com:risapav/docker_sshd.git
-FROM risapav/docker_sshd
+FROM risapav/docker_sshd:latest
 # FROM debian:stable-slim as gnu-cross-toolchain
 
 # user and group settings
