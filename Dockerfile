@@ -84,15 +84,15 @@ RUN apt update && apt install -y \
     stlink-tools; \ 
   apt clean; \
   ln -s ${TOOLCHAIN_PATH}/bin/* /usr/local/bin; \
+  ls -la ${TOOLCHAIN_PATH}/bin; \
   # add user
   groupadd -g ${GID} ${GROUPNAME}; \
   useradd -m -u ${UID} -g ${GID} ${USERNAME}; \
   usermod --append --groups ${GROUPNAME} ${USERNAME}; \
-  usermod --shell /bin/bash ${USERNAME}; \
+  usermod --shell /bin/bash ${USERNAME}; 
 
 #ENV NOTVISIBLE "in users profile" \
-ENV PATH=${TOOLCHAIN_PATH}/bin:$PATH \
-    LD_LIBRARY_PATH=${TOOLCHAIN_PATH}/lib:$LD_LIBRARY_PATH \
+ENV LD_LIBRARY_PATH=${TOOLCHAIN_PATH}/lib:$LD_LIBRARY_PATH \
     CC=${TOOLCHAIN_PREFIX}-gcc \
     CXX=${TOOLCHAIN_PREFIX}-g++ \
     CMAKE_C_COMPILER=${TOOLCHAIN_PREFIX}-gcc \
