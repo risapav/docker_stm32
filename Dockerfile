@@ -93,7 +93,8 @@ RUN apt update && apt install -y \
   usermod --shell /bin/bash ${USERNAME}; 
 
 #ENV NOTVISIBLE "in users profile" \
-ENV LD_LIBRARY_PATH=${TOOLCHAIN_PATH}/lib:$LD_LIBRARY_PATH \
+ENV SHELL=/bin/bash \
+    LD_LIBRARY_PATH=${TOOLCHAIN_PATH}/lib:$LD_LIBRARY_PATH \
     CC=${TOOLCHAIN_PREFIX}-gcc \
     CXX=${TOOLCHAIN_PREFIX}-g++ \
     CMAKE_C_COMPILER=${TOOLCHAIN_PREFIX}-gcc \
@@ -105,4 +106,4 @@ ENV LD_LIBRARY_PATH=${TOOLCHAIN_PATH}/lib:$LD_LIBRARY_PATH \
     LD=${TOOLCHAIN_PREFIX}-ld \
     FC=${TOOLCHAIN_PREFIX}-gfortran
 
-CMD ["/bin/bash"]
+# CMD ["/bin/bash"]
