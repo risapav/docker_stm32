@@ -11,12 +11,6 @@ ARG TOOLCHAIN_PATH=${TOOLCHAIN_ROOT}/${TOOLCHAIN_PREFIX}
 # targer architecture x84_64 mingw-w64-i686 aarch64 darwin-x86_64
 ARG TOOLCHAIN_HOST=x86_64
 
-# user and group settings
-ARG UID=1000
-ARG GID=1000
-ARG USERNAME=user
-ARG GROUPNAME=user
-
 # stage 1
 FROM debian:stable-slim as builder
 
@@ -61,12 +55,6 @@ RUN echo "Build parameters --> TOOLCHAIN_PATH=${TOOLCHAIN_PATH}"; \
 FROM risapav/docker_sshd:latest
 # FROM debian:stable-slim as gnu-cross-toolchain
 
-# user and group settings
-ARG UID
-ARG GID
-ARG USERNAME
-ARG GROUPNAME
-
 # renew ARGS
 ARG TOOLCHAIN_PREFIX
 ARG TOOLCHAIN_ROOT
@@ -86,11 +74,6 @@ RUN apt update && apt install -y \
   apt clean; \
   ln -s ${TOOLCHAIN_PATH}/bin/* /usr/local/bin; \
   ls -la ${TOOLCHAIN_PATH}/bin; \
-  # add user
-  groupadd -g ${GID} ${GROUPNAME}; \
-  useradd -m -u ${UID} -g ${GID} ${USERNAME}; \
-  usermod --append --groups ${GROUPNAME} ${USERNAME}; \
-  usermod --shell /bin/bash ${USERNAME}; 
 
 #ENV NOTVISIBLE "in users profile" \
 ENV SHELL=/bin/bash \
