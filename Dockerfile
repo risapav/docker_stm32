@@ -75,18 +75,6 @@ ARG TOOLCHAIN_PATH
 COPY --from=builder ${TOOLCHAIN_ROOT} ${TOOLCHAIN_ROOT}
 # Install basic programs and custom glibc
 
-# install apps
-RUN apt update && apt install -y \
-    # toolchain
-    python3 \
-    make \
-    cmake \
-    ccache \
-    stlink-tools; \ 
-  apt clean; \
-  ln -s ${TOOLCHAIN_PATH}/bin/* /usr/local/bin; \
-  ls -la ${TOOLCHAIN_PATH}/bin; 
-
 ENV SHELL=/bin/bash \
     LD_LIBRARY_PATH=${TOOLCHAIN_PATH}/lib:$LD_LIBRARY_PATH \
     CC=${TOOLCHAIN_PREFIX}-gcc \
@@ -98,8 +86,20 @@ ENV SHELL=/bin/bash \
     AS=${TOOLCHAIN_PREFIX}-as \
     AR=${TOOLCHAIN_PREFIX}-ar \
     LD=${TOOLCHAIN_PREFIX}-ld \
-    FC=${TOOLCHAIN_PREFIX}-gfortran
+    FC=${TOOLCHAIN_PREFIX}-gfortran \
+    NOTVISIBLE "in users profile"
 
-ENV NOTVISIBLE "in users profile"
-RUN echo "export VISIBLE=now" >> /etc/profile
+# install apps
+RUN echo "export VISIBLE=now" >> /etc/profile; \
+  apt update && apt install -y \
+    # toolchain
+    python3 \
+    make \
+    cmake \
+    ccache \
+    stlink-tools; \ 
+  apt clean; \
+  ln -s ${TOOLCHAIN_PATH}/bin/* /usr/local/bin; \
+  ls -la ${TOOLCHAIN_PATH}/bin; 
+
 # CMD ["/bin/bash"]
