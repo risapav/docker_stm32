@@ -87,7 +87,6 @@ RUN apt update && apt install -y \
   ln -s ${TOOLCHAIN_PATH}/bin/* /usr/local/bin; \
   ls -la ${TOOLCHAIN_PATH}/bin; 
 
-#ENV NOTVISIBLE "in users profile" \
 ENV SHELL=/bin/bash \
     LD_LIBRARY_PATH=${TOOLCHAIN_PATH}/lib:$LD_LIBRARY_PATH \
     CC=${TOOLCHAIN_PREFIX}-gcc \
@@ -101,4 +100,6 @@ ENV SHELL=/bin/bash \
     LD=${TOOLCHAIN_PREFIX}-ld \
     FC=${TOOLCHAIN_PREFIX}-gfortran
 
+ENV NOTVISIBLE "in users profile"
+RUN echo "export VISIBLE=now" >> /etc/profile
 # CMD ["/bin/bash"]
