@@ -89,17 +89,17 @@ RUN apt update && apt install -y \
   apt clean; \
   ln -s ${TOOLCHAIN_PATH}/bin/* /usr/local/bin; \
   ls -la ${TOOLCHAIN_PATH}/bin; \
-  export LD_LIBRARY_PATH=${TOOLCHAIN_PATH}/lib:$LD_LIBRARY_PATH >> /etc/profile; \
-  export CC=${TOOLCHAIN_PREFIX}-gcc >> /etc/profile; \
-  export CXX=${TOOLCHAIN_PREFIX}-g++ >> /etc/profile; \
-  export CMAKE_C_COMPILER=${TOOLCHAIN_PREFIX}-gcc >> /etc/profile; \
-  export CMAKE_CXX_COMPILER=${TOOLCHAIN_PREFIX}-g++ >> /etc/profile; \
-  export STRIP=${TOOLCHAIN_PREFIX}-strip >> /etc/profile; \
-  export RANLIB=${TOOLCHAIN_PREFIX}-ranlib >> /etc/profile; \
-  export AS=${TOOLCHAIN_PREFIX}-as >> /etc/profile; \
-  export AR=${TOOLCHAIN_PREFIX}-ar >> /etc/profile; \
-  export LD=${TOOLCHAIN_PREFIX}-ld >> /etc/profile; \
-  export FC=${TOOLCHAIN_PREFIX}-gfortran >> /etc/profile;
+  echo "export LD_LIBRARY_PATH=${TOOLCHAIN_PATH}/lib:$LD_LIBRARY_PATH" >> /etc/profile; \
+  echo "export CC=${TOOLCHAIN_PREFIX}-gcc" >> /etc/profile; \
+  echo "export CXX=${TOOLCHAIN_PREFIX}-g++" >> /etc/profile; \
+  echo "export CMAKE_C_COMPILER=${TOOLCHAIN_PREFIX}-gcc" >> /etc/profile; \
+  echo "export CMAKE_CXX_COMPILER=${TOOLCHAIN_PREFIX}-g++" >> /etc/profile; \
+  echo "export STRIP=${TOOLCHAIN_PREFIX}-strip" >> /etc/profile; \
+  echo "export RANLIB=${TOOLCHAIN_PREFIX}-ranlib" >> /etc/profile; \
+  echo "export AS=${TOOLCHAIN_PREFIX}-as" >> /etc/profile; \
+  echo "export AR=${TOOLCHAIN_PREFIX}-ar" >> /etc/profile; \
+  echo "export LD=${TOOLCHAIN_PREFIX}-ld" >> /etc/profile; \
+  echo "export FC=${TOOLCHAIN_PREFIX}-gfortran" >> /etc/profile;
 
 ENV SHELL=/bin/bash \
     LD_LIBRARY_PATH=${TOOLCHAIN_PATH}/lib:$LD_LIBRARY_PATH \
