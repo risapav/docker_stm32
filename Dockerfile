@@ -74,6 +74,32 @@ ARG TOOLCHAIN_PATH
 
 COPY --from=builder ${TOOLCHAIN_ROOT} ${TOOLCHAIN_ROOT}
 # Install basic programs and custom glibc
+   
+# ENV NOTVISIBLE "in users profile"
+
+# install apps
+#RUN echo "export VISIBLE=now" >> /etc/profile; \
+RUN apt update && apt install -y \
+    # toolchain
+    python3 \
+    make \
+    cmake \
+    ccache \
+    stlink-tools; \ 
+  apt clean; \
+  ln -s ${TOOLCHAIN_PATH}/bin/* /usr/local/bin; \
+  ls -la ${TOOLCHAIN_PATH}/bin; \
+  export LD_LIBRARY_PATH=${TOOLCHAIN_PATH}/lib:$LD_LIBRARY_PATH >> /etc/profile; \
+  export CC=${TOOLCHAIN_PREFIX}-gcc >> /etc/profile; \
+  export CXX=${TOOLCHAIN_PREFIX}-g++ >> /etc/profile; \
+  export CMAKE_C_COMPILER=${TOOLCHAIN_PREFIX}-gcc >> /etc/profile; \
+  export CMAKE_CXX_COMPILER=${TOOLCHAIN_PREFIX}-g++ >> /etc/profile; \
+  export STRIP=${TOOLCHAIN_PREFIX}-strip >> /etc/profile; \
+  export RANLIB=${TOOLCHAIN_PREFIX}-ranlib >> /etc/profile; \
+  export AS=${TOOLCHAIN_PREFIX}-as >> /etc/profile; \
+  export AR=${TOOLCHAIN_PREFIX}-ar >> /etc/profile; \
+  export LD=${TOOLCHAIN_PREFIX}-ld >> /etc/profile; \
+  export FC=${TOOLCHAIN_PREFIX}-gfortran >> /etc/profile;
 
 ENV SHELL=/bin/bash \
     LD_LIBRARY_PATH=${TOOLCHAIN_PATH}/lib:$LD_LIBRARY_PATH \
@@ -88,19 +114,4 @@ ENV SHELL=/bin/bash \
     LD=${TOOLCHAIN_PREFIX}-ld \
     FC=${TOOLCHAIN_PREFIX}-gfortran 
     
-ENV NOTVISIBLE "in users profile"
-
-# install apps
-RUN echo "export VISIBLE=now" >> /etc/profile; \
-  apt update && apt install -y \
-    # toolchain
-    python3 \
-    make \
-    cmake \
-    ccache \
-    stlink-tools; \ 
-  apt clean; \
-  ln -s ${TOOLCHAIN_PATH}/bin/* /usr/local/bin; \
-  ls -la ${TOOLCHAIN_PATH}/bin; 
-
 # CMD ["/bin/bash"]
