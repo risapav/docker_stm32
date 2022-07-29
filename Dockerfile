@@ -86,8 +86,9 @@ ENV SHELL=/bin/bash \
     AS=${TOOLCHAIN_PREFIX}-as \
     AR=${TOOLCHAIN_PREFIX}-ar \
     LD=${TOOLCHAIN_PREFIX}-ld \
-    FC=${TOOLCHAIN_PREFIX}-gfortran \
-    NOTVISIBLE "in users profile"
+    FC=${TOOLCHAIN_PREFIX}-gfortran 
+    
+ENV NOTVISIBLE "in users profile"
 
 # install apps
 RUN echo "export VISIBLE=now" >> /etc/profile; \
