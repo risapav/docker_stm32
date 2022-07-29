@@ -1,5 +1,14 @@
 #STM32 development tools
 
+
+# supply your pub key via `--build-arg ssh_pub_key="$(cat ~/.ssh/id_rsa.pub)"` when running `docker build`
+# docker build example:
+# docker build --build-arg SSH_PUB_KEY="$(cat ~/.ssh/id_rsa.pub)" --build-arg USERNAME=$USER -t sshd .
+ARG SSH_PUB_KEY
+
+# user and group settings `--build-arg USERNAME=$USER`
+ARG USERNAME
+
 # target system
 # AArch32 bare-metal target (arm-none-eabi)
 
@@ -54,6 +63,9 @@ RUN echo "Build parameters --> TOOLCHAIN_PATH=${TOOLCHAIN_PATH}"; \
 # FROM git@github.com:risapav/docker_sshd.git
 FROM risapav/docker_sshd:latest
 # FROM debian:stable-slim as gnu-cross-toolchain
+
+ARG SSH_PUB_KEY
+ARG USERNAME
 
 # renew ARGS
 ARG TOOLCHAIN_PREFIX
