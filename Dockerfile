@@ -85,7 +85,7 @@ RUN apt update && apt install -y \
     stlink-tools; \ 
   apt clean; \
   ln -s ${TOOLCHAIN_PATH}/bin/* /usr/local/bin; \
-  ls -la ${TOOLCHAIN_PATH}/bin; \
+  ls -la ${TOOLCHAIN_PATH}/bin; 
 
 #ENV NOTVISIBLE "in users profile" \
 ENV SHELL=/bin/bash \
