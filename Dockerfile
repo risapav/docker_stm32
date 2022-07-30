@@ -85,7 +85,7 @@ RUN apt update && apt install -y \
     make \
     cmake \
     ccache \
-#    libncurses-dev \
+    libncursesw5 \
     libncurses5 \
     stlink-tools; \ 
   apt clean; \
