@@ -36,9 +36,8 @@ ARG TOOLS_ZIP=${TOOLCHAIN_PREFIX}.tar.xz
 ARG TOOLS_LINK="https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/downloads"
 
 # install build tools
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN echo "Build parameters --> TOOLCHAIN_PATH=${TOOLCHAIN_PATH}"; \  
-  apt update && apt install -y \
+# SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN apt update && apt install -y \
     wget \
     w3m \
     tar \
@@ -54,15 +53,13 @@ RUN echo "Build parameters --> TOOLCHAIN_PATH=${TOOLCHAIN_PATH}"; \
     grep ${TOOLS_ZIP} | \
     grep ${TOOLCHAIN_HOST}  | \
     grep 'downloads'  | \
-    grep -m1 'https:' )"; \
+    grep -m1 'https:' )"; \  
   echo "==========>>> ${GCCARM_LINK}"; \
   wget --content-disposition -q --show-progress --progress=bar:force:noscroll -O /tmp/${TOOLS_ZIP} ${GCCARM_LINK}; \
   tar -xvf /tmp/${TOOLS_ZIP} -C ${TOOLCHAIN_PATH} --strip-components=1;
 
-# stage 2
-# FROM git@github.com:risapav/docker_sshd.git
+# stage 2  
 FROM risapav/docker_sshd:latest
-# FROM debian:stable-slim as gnu-cross-toolchain
 
 ARG SSH_PUB_KEY
 ARG USERNAME
@@ -75,22 +72,16 @@ ARG TOOLCHAIN_PATH
 # copy entire dir with bin, lib docs...
 COPY --from=builder ${TOOLCHAIN_ROOT} ${TOOLCHAIN_ROOT}
 
-# Install basic programs and custom glibc
-   
-# ENV NOTVISIBLE "in users profile"
-
 # install apps
-#RUN echo "export VISIBLE=now" >> /etc/profile; \
 RUN apt update && apt install -y \
-    python3 \
     make \
     cmake \
-    ccache \
-    libpython3.6 \
+#    ccache \ 
+    python3 \
+#    libpython3.6 \
     stlink-tools; \ 
   apt clean; \
   ln -s ${TOOLCHAIN_PATH}/bin/* /usr/local/bin; \
-  ls -la ${TOOLCHAIN_PATH}/bin; \
   ln -s /lib/x86_64-linux-gnu/libncursesw.so.6.2 /lib/x86_64-linux-gnu/libncursesw.so.5; \
   ln -s /lib/x86_64-linux-gnu/libtinfo.so.6.2 /lib/x86_64-linux-gnu/libtinfo.so.5; \ 
   { \
@@ -109,24 +100,25 @@ RUN apt update && apt install -y \
     echo "# export BIN=${TOOLCHAIN_PREFIX}-objcopy -O ihex"; \
     echo "export OD=${TOOLCHAIN_PREFIX}-objdump"; \
     echo "export FC=${TOOLCHAIN_PREFIX}-gfortran"; \
-  } >> /etc/profile;
+  } >> /etc/profile; \
+  ls -la ${TOOLCHAIN_PATH}/bin; 
 
-ENV SHELL=/bin/bash \
-    LD_LIBRARY_PATH=${TOOLCHAIN_PATH}/lib:$LD_LIBRARY_PATH \
-    CC=${TOOLCHAIN_PREFIX}-gcc \
-    CXX=${TOOLCHAIN_PREFIX}-g++ \
-    CMAKE_C_COMPILER=${TOOLCHAIN_PREFIX}-gcc \
-    CMAKE_CXX_COMPILER=${TOOLCHAIN_PREFIX}-g++ \
-    STRIP=${TOOLCHAIN_PREFIX}-strip \
-    RANLIB=${TOOLCHAIN_PREFIX}-ranlib \
-    AS=${TOOLCHAIN_PREFIX}-as \
-    AR=${TOOLCHAIN_PREFIX}-ar \
-    LD=${TOOLCHAIN_PREFIX}-ld \
-    FC=${TOOLCHAIN_PREFIX}-gfortran \
-    OD=$(TOOLCHAIN_PREFIX)-objdump \
-#    BIN=$(TOOLCHAIN_PREFIX)-objcopy -O ihex \
-    SIZE=$(TOOLCHAIN_PREFIX)-size \
-    GDB=$(TOOLCHAIN_PREFIX)-gdb 
+#ENV SHELL=/bin/bash \
+#    LD_LIBRARY_PATH=${TOOLCHAIN_PATH}/lib:$LD_LIBRARY_PATH \
+#    CC=${TOOLCHAIN_PREFIX}-gcc \
+#    CXX=${TOOLCHAIN_PREFIX}-g++ \
+#    CMAKE_C_COMPILER=${TOOLCHAIN_PREFIX}-gcc \
+#    CMAKE_CXX_COMPILER=${TOOLCHAIN_PREFIX}-g++ \
+#    STRIP=${TOOLCHAIN_PREFIX}-strip \
+#    RANLIB=${TOOLCHAIN_PREFIX}-ranlib \
+#    AS=${TOOLCHAIN_PREFIX}-as \
+#    AR=${TOOLCHAIN_PREFIX}-ar \
+#    LD=${TOOLCHAIN_PREFIX}-ld \
+#    FC=${TOOLCHAIN_PREFIX}-gfortran \
+#    OD=$(TOOLCHAIN_PREFIX)-objdump \
+##    BIN=$(TOOLCHAIN_PREFIX)-objcopy -O ihex \
+#    SIZE=$(TOOLCHAIN_PREFIX)-size \
+#    GDB=$(TOOLCHAIN_PREFIX)-gdb 
 
 
 # CMD ["/bin/bash"]
