@@ -91,21 +91,23 @@ RUN apt update && apt install -y \
   apt clean; \
   ln -s ${TOOLCHAIN_PATH}/bin/* /usr/local/bin; \
   ls -la ${TOOLCHAIN_PATH}/bin; \
-  echo "export LD_LIBRARY_PATH=${TOOLCHAIN_PATH}/lib:$LD_LIBRARY_PATH" >> /etc/profile; \
-  echo "export CC=${TOOLCHAIN_PREFIX}-gcc" >> /etc/profile; \
-  echo "export CXX=${TOOLCHAIN_PREFIX}-g++" >> /etc/profile; \
-  echo "export CMAKE_C_COMPILER=${TOOLCHAIN_PREFIX}-gcc" >> /etc/profile; \
-  echo "export CMAKE_CXX_COMPILER=${TOOLCHAIN_PREFIX}-g++" >> /etc/profile; \
-  echo "export STRIP=${TOOLCHAIN_PREFIX}-strip" >> /etc/profile; \
-  echo "export RANLIB=${TOOLCHAIN_PREFIX}-ranlib" >> /etc/profile; \
-  echo "export AS=${TOOLCHAIN_PREFIX}-as" >> /etc/profile; \
-  echo "export AR=${TOOLCHAIN_PREFIX}-ar" >> /etc/profile; \
-  echo "export LD=${TOOLCHAIN_PREFIX}-ld" >> /etc/profile; \
-  echo "export GDB=${TOOLCHAIN_PREFIX}-gdb" >> /etc/profile; \
-  echo "export SIZE=${TOOLCHAIN_PREFIX}-size" >> /etc/profile; \
-#  echo "export BIN=${TOOLCHAIN_PREFIX}-objcopy -O ihex " >> /etc/profile; \
-  echo "export OD=${TOOLCHAIN_PREFIX}-objdump" >> /etc/profile; \
-  echo "export FC=${TOOLCHAIN_PREFIX}-gfortran" >> /etc/profile;
+  { \
+    echo 'export LD_LIBRARY_PATH=${TOOLCHAIN_PATH}/lib:$LD_LIBRARY_PATH'; \
+    echo 'export CC=${TOOLCHAIN_PREFIX}-gcc'; \
+    echo 'export CXX=${TOOLCHAIN_PREFIX}-g++'; \
+    echo 'export CMAKE_C_COMPILER=${TOOLCHAIN_PREFIX}-gcc'; \
+    echo 'export CMAKE_CXX_COMPILER=${TOOLCHAIN_PREFIX}-g++'; \
+    echo 'export STRIP=${TOOLCHAIN_PREFIX}-strip'; \
+    echo 'export RANLIB=${TOOLCHAIN_PREFIX}-ranlib'; \
+    echo 'export AS=${TOOLCHAIN_PREFIX}-as'; \
+    echo 'export AR=${TOOLCHAIN_PREFIX}-ar'; \
+    echo 'export LD=${TOOLCHAIN_PREFIX}-ld'; \
+    echo 'export GDB=${TOOLCHAIN_PREFIX}-gdb'; \
+    echo 'export SIZE=${TOOLCHAIN_PREFIX}-size'; \
+    echo '# export BIN=${TOOLCHAIN_PREFIX}-objcopy -O ihex'; \
+    echo 'export OD=${TOOLCHAIN_PREFIX}-objdump'; \
+    echo 'export FC=${TOOLCHAIN_PREFIX}-gfortran'; \
+  } >> /etc/profile;
 
 ENV SHELL=/bin/bash \
     LD_LIBRARY_PATH=${TOOLCHAIN_PATH}/lib:$LD_LIBRARY_PATH \
