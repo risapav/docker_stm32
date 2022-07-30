@@ -85,6 +85,7 @@ RUN apt update && apt install -y \
     make \
     cmake \
     ccache \
+    libncurses-dev \
     stlink-tools; \ 
   apt clean; \
   ln -s ${TOOLCHAIN_PATH}/bin/* /usr/local/bin; \
