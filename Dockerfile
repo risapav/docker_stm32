@@ -72,7 +72,13 @@ ARG TOOLCHAIN_PREFIX
 ARG TOOLCHAIN_ROOT
 ARG TOOLCHAIN_PATH
 
+# copy entire dir with bin, lib docs...
+# COPY --from=builder ${TOOLCHAIN_ROOT} ${TOOLCHAIN_ROOT}
+
+# copy toolchain partially
 COPY --from=builder ${TOOLCHAIN_ROOT} ${TOOLCHAIN_ROOT}
+COPY --from=builder ${TOOLCHAIN_ROOT} ${TOOLCHAIN_ROOT}
+
 # Install basic programs and custom glibc
    
 # ENV NOTVISIBLE "in users profile"
@@ -95,20 +101,20 @@ RUN apt update && apt install -y \
   ls -la ${TOOLCHAIN_PATH}/bin; \
   { \
     echo 'export LD_LIBRARY_PATH=${TOOLCHAIN_PATH}/lib:$LD_LIBRARY_PATH'; \
-    echo 'export CC=${TOOLCHAIN_PREFIX}-gcc'; \
-    echo 'export CXX=${TOOLCHAIN_PREFIX}-g++'; \
-    echo 'export CMAKE_C_COMPILER=${TOOLCHAIN_PREFIX}-gcc'; \
-    echo 'export CMAKE_CXX_COMPILER=${TOOLCHAIN_PREFIX}-g++'; \
-    echo 'export STRIP=${TOOLCHAIN_PREFIX}-strip'; \
-    echo 'export RANLIB=${TOOLCHAIN_PREFIX}-ranlib'; \
-    echo 'export AS=${TOOLCHAIN_PREFIX}-as'; \
-    echo 'export AR=${TOOLCHAIN_PREFIX}-ar'; \
-    echo 'export LD=${TOOLCHAIN_PREFIX}-ld'; \
-    echo 'export GDB=${TOOLCHAIN_PREFIX}-gdb'; \
-    echo 'export SIZE=${TOOLCHAIN_PREFIX}-size'; \
-    echo '# export BIN=${TOOLCHAIN_PREFIX}-objcopy -O ihex'; \
-    echo 'export OD=${TOOLCHAIN_PREFIX}-objdump'; \
-    echo 'export FC=${TOOLCHAIN_PREFIX}-gfortran'; \
+    echo 'export CC="${TOOLCHAIN_PREFIX}"-gcc'; \
+    echo 'export CXX="${TOOLCHAIN_PREFIX}"-g++'; \
+    echo 'export CMAKE_C_COMPILER="${TOOLCHAIN_PREFIX}"-gcc'; \
+    echo 'export CMAKE_CXX_COMPILER="${TOOLCHAIN_PREFIX}"-g++'; \
+    echo 'export STRIP="${TOOLCHAIN_PREFIX}"-strip'; \
+    echo 'export RANLIB="${TOOLCHAIN_PREFIX}"-ranlib'; \
+    echo 'export AS="${TOOLCHAIN_PREFIX}"-as'; \
+    echo 'export AR="${TOOLCHAIN_PREFIX}"-ar'; \
+    echo 'export LD="${TOOLCHAIN_PREFIX}"-ld'; \
+    echo 'export GDB="${TOOLCHAIN_PREFIX}"-gdb'; \
+    echo 'export SIZE="${TOOLCHAIN_PREFIX}"-size'; \
+    echo '# export BIN="${TOOLCHAIN_PREFIX}"-objcopy -O ihex'; \
+    echo 'export OD="${TOOLCHAIN_PREFIX}"-objdump'; \
+    echo 'export FC="${TOOLCHAIN_PREFIX}"-gfortran'; \
   } >> /etc/profile;
 
 ENV SHELL=/bin/bash \
