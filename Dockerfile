@@ -87,6 +87,7 @@ RUN apt update && apt install -y \
     ccache \
     libncursesw5 \
     libncurses5 \
+    libpython3.6m \
     stlink-tools; \ 
   apt clean; \
   ln -s ${TOOLCHAIN_PATH}/bin/* /usr/local/bin; \
