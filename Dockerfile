@@ -87,7 +87,7 @@ RUN apt update && apt install -y \
     make \
     cmake \
     ccache \
-    libncurses5-dev libncursesw5-dev \
+#    libncurses5-dev libncursesw5-dev \
 #    libncursesw5 \
 #    libncurses5 \
 #    libncurses  \
