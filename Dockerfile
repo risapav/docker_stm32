@@ -102,7 +102,7 @@ RUN apt update && apt install -y \
   echo "export LD=${TOOLCHAIN_PREFIX}-ld" >> /etc/profile; \
   echo "export GDB=${TOOLCHAIN_PREFIX}-gdb" >> /etc/profile; \
   echo "export SIZE=${TOOLCHAIN_PREFIX}-size" >> /etc/profile; \
-  echo "export BIN=${TOOLCHAIN_PREFIX}-objcopy -O ihex " >> /etc/profile; \
+#  echo "export BIN=${TOOLCHAIN_PREFIX}-objcopy -O ihex " >> /etc/profile; \
   echo "export OD=${TOOLCHAIN_PREFIX}-objdump" >> /etc/profile; \
   echo "export FC=${TOOLCHAIN_PREFIX}-gfortran" >> /etc/profile;
 
@@ -119,7 +119,7 @@ ENV SHELL=/bin/bash \
     LD=${TOOLCHAIN_PREFIX}-ld \
     FC=${TOOLCHAIN_PREFIX}-gfortran \
     OD=$(TOOLCHAIN_PREFIX)-objdump \
-    BIN=$(TOOLCHAIN_PREFIX)-objcopy -O ihex \
+#    BIN=$(TOOLCHAIN_PREFIX)-objcopy -O ihex \
     SIZE=$(TOOLCHAIN_PREFIX)-size \
     GDB=$(TOOLCHAIN_PREFIX)-gdb 
 
