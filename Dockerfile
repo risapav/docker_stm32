@@ -78,7 +78,7 @@ RUN apt update && apt install -y \
     cmake \
 #    ccache \ 
     python3 \
-#    libpython3.6 \
+    libpython3.6 \
     stlink-tools; \ 
   apt clean; \
   ln -s ${TOOLCHAIN_PATH}/bin/* /usr/local/bin; \
