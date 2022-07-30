@@ -82,7 +82,6 @@ COPY --from=builder ${TOOLCHAIN_ROOT} ${TOOLCHAIN_ROOT}
 # install apps
 #RUN echo "export VISIBLE=now" >> /etc/profile; \
 RUN apt update && apt install -y \
-    # toolchain
     python3 \
     make \
     cmake \
