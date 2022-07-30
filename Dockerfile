@@ -73,11 +73,11 @@ ARG TOOLCHAIN_ROOT
 ARG TOOLCHAIN_PATH
 
 # copy entire dir with bin, lib docs...
-# COPY --from=builder ${TOOLCHAIN_ROOT} ${TOOLCHAIN_ROOT}
+COPY --from=builder ${TOOLCHAIN_ROOT} ${TOOLCHAIN_ROOT}
 
 # copy toolchain partially
-COPY --from=builder ${TOOLCHAIN_ROOT} ${TOOLCHAIN_ROOT}
-COPY --from=builder ${TOOLCHAIN_ROOT} ${TOOLCHAIN_ROOT}
+#COPY --from=builder ${TOOLCHAIN_ROOT} ${TOOLCHAIN_ROOT}
+#COPY --from=builder ${TOOLCHAIN_ROOT} ${TOOLCHAIN_ROOT}
 
 # Install basic programs and custom glibc
    
