@@ -87,10 +87,11 @@ RUN apt update && apt install -y \
     make \
     cmake \
     ccache \
+    libncurses5-dev libncursesw5-dev \
 #    libncursesw5 \
 #    libncurses5 \
-    libncurses  \
-    libncursesw \
+#    libncurses  \
+#    libncursesw \
     libpython3.6 \
 #    libpython3.6m \
     stlink-tools; \ 
