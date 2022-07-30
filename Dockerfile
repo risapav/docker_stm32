@@ -100,6 +100,10 @@ RUN apt update && apt install -y \
   echo "export AS=${TOOLCHAIN_PREFIX}-as" >> /etc/profile; \
   echo "export AR=${TOOLCHAIN_PREFIX}-ar" >> /etc/profile; \
   echo "export LD=${TOOLCHAIN_PREFIX}-ld" >> /etc/profile; \
+  echo "export GDB=${TOOLCHAIN_PREFIX}-gdb" >> /etc/profile; \
+  echo "export SIZE=${TOOLCHAIN_PREFIX}-size" >> /etc/profile; \
+  echo "export BIN=${TOOLCHAIN_PREFIX}-objcopy -O ihex " >> /etc/profile; \
+  echo "export OD=${TOOLCHAIN_PREFIX}-objdump" >> /etc/profile; \
   echo "export FC=${TOOLCHAIN_PREFIX}-gfortran" >> /etc/profile;
 
 ENV SHELL=/bin/bash \
@@ -113,6 +117,11 @@ ENV SHELL=/bin/bash \
     AS=${TOOLCHAIN_PREFIX}-as \
     AR=${TOOLCHAIN_PREFIX}-ar \
     LD=${TOOLCHAIN_PREFIX}-ld \
-    FC=${TOOLCHAIN_PREFIX}-gfortran 
-    
+    FC=${TOOLCHAIN_PREFIX}-gfortran \
+    OD=$(TOOLCHAIN_PREFIX)-objdump \
+    BIN=$(TOOLCHAIN_PREFIX)-objcopy -O ihex \
+    SIZE=$(TOOLCHAIN_PREFIX)-size \
+    GDB=$(TOOLCHAIN_PREFIX)-gdb \
+
+
 # CMD ["/bin/bash"]
