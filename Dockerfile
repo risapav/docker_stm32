@@ -121,7 +121,7 @@ ENV SHELL=/bin/bash \
     OD=$(TOOLCHAIN_PREFIX)-objdump \
     BIN=$(TOOLCHAIN_PREFIX)-objcopy -O ihex \
     SIZE=$(TOOLCHAIN_PREFIX)-size \
-    GDB=$(TOOLCHAIN_PREFIX)-gdb \
+    GDB=$(TOOLCHAIN_PREFIX)-gdb 
 
 
 # CMD ["/bin/bash"]
