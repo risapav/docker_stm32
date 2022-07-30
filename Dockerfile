@@ -87,17 +87,13 @@ RUN apt update && apt install -y \
     make \
     cmake \
     ccache \
-#    libncurses5-dev libncursesw5-dev \
-#    libncursesw5 \
-#    libncurses5 \
-#    libncurses  \
-#    libncursesw \
     libpython3.6 \
-#    libpython3.6m \
     stlink-tools; \ 
   apt clean; \
   ln -s ${TOOLCHAIN_PATH}/bin/* /usr/local/bin; \
   ls -la ${TOOLCHAIN_PATH}/bin; \
+  ln -s /lib/x86_64-linux-gnu/libncursesw.so.6.2 /lib/x86_64-linux-gnu/libncursesw.so.5; \
+  ln -s /lib/x86_64-linux-gnu/libtinfo.so.6.2 /lib/x86_64-linux-gnu/libtinfo.so.5; \ 
   { \
     echo "export LD_LIBRARY_PATH=${TOOLCHAIN_PATH}/lib:$LD_LIBRARY_PATH"; \
     echo "export CC=${TOOLCHAIN_PREFIX}-gcc"; \
