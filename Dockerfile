@@ -76,7 +76,7 @@ make install -j"$(nproc)"; \
 
 # We can see that we've produced shared library (.so file successfully):
 
-find . -name libpython3.6m.so.1.0
+find / -name libpython3.6m.so.1.0
 # ./libpython3.6m.so.1.0
 # ./lib/libpython3.6m.so.1.0
 
