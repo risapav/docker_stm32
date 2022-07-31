@@ -35,8 +35,7 @@ ARG TOOLCHAIN_HOST
 ARG TOOLS_ZIP=${TOOLCHAIN_PREFIX}.tar.xz
 ARG TOOLS_LINK="https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/downloads"
 
-# install build tools
-# SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+# install crosscompile toolchain
 RUN apt update && apt install -y \
     wget \
     w3m \
@@ -57,6 +56,33 @@ RUN apt update && apt install -y \
   echo "==========>>> ${GCCARM_LINK}"; \
   wget --content-disposition -q --show-progress --progress=bar:force:noscroll -O /tmp/${TOOLS_ZIP} ${GCCARM_LINK}; \
   tar -xvf /tmp/${TOOLS_ZIP} -C ${TOOLCHAIN_PATH} --strip-components=1;
+  
+# prepare missing python library
+ARG PYTHON_PREFIX=/tmp/tt/python3.6
+ARG PYTHON_LINK=https://www.python.org/ftp/python/3.6.14/Python-3.6.14.tgz
+ARG PYTHON_ZIP=Python-3.6.14.tgz
+
+RUN mkdir -p $PREFIX && cd $PREFIX; \
+  wget -O ${PYTHON_PREFIX}/${PYTHON_ZIP} ${PYTHON_LINK}; \
+  tar xf ${PYTHON_ZIP}; \
+ls -la; 
+
+$ ../path/to/Python-3.6.14/configure --prefix=$PREFIX --enable-shared
+$ make -j16
+$ make install -j16
+
+# We can see that we've produced shared library (.so file successfully):
+
+$ find . -name libpython3.6m.so.1.0
+./libpython3.6m.so.1.0
+./lib/libpython3.6m.so.1.0
+
+# Trick is to tell GDB where to look for shared libs with LD_LIBRARY_PATH environment variable.
+
+
+$ LD_LIBRARY_PATH=/tmp/tt/python3.6/lib ./bin/arm-none-eabi-gdb --version
+GNU gdb (GNU Toolchain for the Arm Architecture 11.2-2022.02 (arm-11.14)) 11.2.90.20220202-git
+
 
 # stage 2  
 FROM risapav/docker_sshd:latest
