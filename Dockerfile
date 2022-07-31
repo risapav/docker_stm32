@@ -37,6 +37,8 @@ ARG TOOLS_LINK="https://developer.arm.com/tools-and-software/open-source-softwar
 
 # install crosscompile toolchain
 RUN apt update && apt install -y \
+    gcc \
+# toolchain install
     wget \
     w3m \
     tar \
@@ -131,8 +133,8 @@ RUN apt update && apt install -y \
     echo "# export BIN=${TOOLCHAIN_PREFIX}-objcopy -O ihex"; \
     echo "export OD=${TOOLCHAIN_PREFIX}-objdump"; \
     echo "export FC=${TOOLCHAIN_PREFIX}-gfortran"; \
-  } >> /etc/profile; \
-  ls -la ${TOOLCHAIN_PATH}/bin; 
+  } >> /etc/profile; 
+#  ls -la ${TOOLCHAIN_PATH}/bin; 
 
 #ENV SHELL=/bin/bash \
 #    LD_LIBRARY_PATH=${TOOLCHAIN_PATH}/lib:$LD_LIBRARY_PATH \
