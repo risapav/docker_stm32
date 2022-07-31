@@ -73,10 +73,11 @@ cat configure; \
 ./configure --prefix=${PYTHON_PATH} --enable-shared LDFLAGS="-Wl,-rpath ${PYTHON_PATH}/usr/local/lib"; \
 make -j"$(nproc)"; \
 make install -j"$(nproc)"; \
+find / -name libpython3* >> ${PYTHON_PATH}/txt.txt;
 
 # We can see that we've produced shared library (.so file successfully):
 
-find / -name libpython3.6m.so.1.0
+# find / -name libpython3.6m.so.1.0
 # ./libpython3.6m.so.1.0
 # ./lib/libpython3.6m.so.1.0
 
