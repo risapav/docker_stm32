@@ -69,8 +69,8 @@ RUN mkdir -p ${PYTHON_PATH}; \
   wget -O ${PYTHON_ZIP} ${PYTHON_LINK}; \
   tar xf ${PYTHON_ZIP}; \
 cd Python-3.6.14; \
-cat configure;
-./configure --prefix=${PYTHON_PATH} --enable-shared
+cat configure; \
+./configure --prefix=${PYTHON_PATH} --enable-shared; \
 make -j"$(nproc)"; \
 make install -j"$(nproc)"; \
 
