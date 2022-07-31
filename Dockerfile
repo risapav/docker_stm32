@@ -37,9 +37,6 @@ ARG TOOLS_LINK="https://developer.arm.com/tools-and-software/open-source-softwar
 
 # install crosscompile toolchain
 RUN apt update && apt install -y \
-    make \
-    gcc \
-# toolchain install
     wget \
     w3m \
     tar \
@@ -59,33 +56,7 @@ RUN apt update && apt install -y \
   echo "==========>>> ${GCCARM_LINK}"; \
   wget --content-disposition -q --show-progress --progress=bar:force:noscroll -O /tmp/${TOOLS_ZIP} ${GCCARM_LINK}; \
   tar -xvf /tmp/${TOOLS_ZIP} -C ${TOOLCHAIN_PATH} --strip-components=1;
-  
-## prepare missing python library
-#ARG PYTHON_PREFIX=python3
-#ARG PYTHON_PATH=/opt/${PYTHON_PREFIX}
-#ARG PYTHON_ZIP=Python-3.6.14.tgz
-#ARG PYTHON_LINK=https://www.python.org/ftp/python/3.6.14/Python-3.6.14.tgz
-
-#RUN mkdir -p ${PYTHON_PATH}; \
-#  mkdir -p /tmp/${PYTHON_PREFIX}; \
-#  cd /tmp/${PYTHON_PREFIX}; \
-#  wget -O ${PYTHON_ZIP} ${PYTHON_LINK}; \
-#  tar xf ${PYTHON_ZIP}; \
-#cd Python-3.6.14; \
-#./configure --help >> ${PYTHON_PATH}/0.txt; \
-#./configure --prefix=${PYTHON_PATH} --exec-prefix=${PYTHON_PATH} --enable-shared; \
-#make -j"$(nproc)" >> ${PYTHON_PATH}/1.txt; \
-#make install -j"$(nproc)" >> ${PYTHON_PATH}/2.txt; 
-
-# We can see that we've produced shared library (.so file successfully):
-
-# find / -name libpython3.6m.so.1.0
-# ./libpython3.6m.so.1.0
-# ./lib/libpython3.6m.so.1.0
-
-# Trick is to tell GDB where to look for shared libs with LD_LIBRARY_PATH environment variable.
-
-
+ 
 # $ LD_LIBRARY_PATH=/tmp/tt/python3.6/lib ./bin/arm-none-eabi-gdb --version
 # GNU gdb (GNU Toolchain for the Arm Architecture 11.2-2022.02 (arm-11.14)) 11.2.90.20220202-git
 
@@ -112,8 +83,8 @@ RUN apt update && apt install -y \
     stlink-tools; \ 
   apt clean; \
   ln -s ${TOOLCHAIN_PATH}/bin/* /usr/local/bin; \
-  ln -s /lib/x86_64-linux-gnu/libncursesw.so.6.2 /lib/x86_64-linux-gnu/libncursesw.so.5; \
-  ln -s /lib/x86_64-linux-gnu/libtinfo.so.6.2 /lib/x86_64-linux-gnu/libtinfo.so.5; \ 
+#  ln -s /lib/x86_64-linux-gnu/libncursesw.so.6.2 /lib/x86_64-linux-gnu/libncursesw.so.5; \
+#  ln -s /lib/x86_64-linux-gnu/libtinfo.so.6.2 /lib/x86_64-linux-gnu/libtinfo.so.5; \ 
   { \
     echo "export LD_LIBRARY_PATH=${TOOLCHAIN_PATH}/lib:$LD_LIBRARY_PATH"; \
     echo "export CC=${TOOLCHAIN_PREFIX}-gcc"; \
