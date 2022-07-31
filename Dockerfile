@@ -121,6 +121,6 @@ RUN apt update && apt install -y \
 #    SIZE=$(TOOLCHAIN_PREFIX)-size \
 #    GDB=$(TOOLCHAIN_PREFIX)-gdb 
 
-EXPOSE 3333 
+# EXPOSE 3333 
 
 # CMD ["/bin/bash"]
