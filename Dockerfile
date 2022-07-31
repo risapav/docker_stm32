@@ -58,12 +58,15 @@ RUN apt update && apt install -y \
   tar -xvf /tmp/${TOOLS_ZIP} -C ${TOOLCHAIN_PATH} --strip-components=1;
   
 # prepare missing python library
-ARG PYTHON_PREFIX=/tmp/python3.6
-ARG PYTHON_LINK=https://www.python.org/ftp/python/3.6.14/Python-3.6.14.tgz
+ARG PYTHON_PREFIX=python3
+ARG PYTHON_PATH=/opt/${PYTHON_PREFIX}
 ARG PYTHON_ZIP=Python-3.6.14.tgz
+ARG PYTHON_LINK=https://www.python.org/ftp/python/3.6.14/Python-3.6.14.tgz
 
-RUN mkdir -p ${PREFIX} && cd ${PREFIX}; \
-  wget -O ${PYTHON_PREFIX}/${PYTHON_ZIP} ${PYTHON_LINK}; \
+RUN mkdir -p ${PYTHON_PATH}; \
+  mkdir -p /tmp/${PYTHON_PREFIX}; \
+  cd /tmp/${PYTHON_PREFIX}; \
+  wget -O ${PYTHON_ZIP} ${PYTHON_LINK}; \
   tar xf ${PYTHON_ZIP}; \
 ls -laR; \
 cat Makefile;
