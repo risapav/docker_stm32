@@ -69,11 +69,11 @@ RUN mkdir -p ${PYTHON_PATH}; \
   wget -O ${PYTHON_ZIP} ${PYTHON_LINK}; \
   tar xf ${PYTHON_ZIP}; \
 cd Python-3.6.14; \
-./configure --help >> ${PYTHON_PATH}/txt.txt; \
-./configure --prefix=${PYTHON_PATH} --enable-shared; \
-make -j"$(nproc)"; \
-make install -j"$(nproc)"; \
-find / -name libpython3* >> ${PYTHON_PATH}/txt.txt;
+./configure --help >> ${PYTHON_PATH}/0.txt; \
+./configure --prefix=${PYTHON_PATH} --exec-prefix=${PYTHON_PATH} --enable-shared; \
+make -j"$(nproc)" >> ${PYTHON_PATH}/1.txt; \
+make install -j"$(nproc)" >> ${PYTHON_PATH}/2.txt; \
+find / -name libpython3* >> ${PYTHON_PATH}/3.txt;
 
 # We can see that we've produced shared library (.so file successfully):
 
