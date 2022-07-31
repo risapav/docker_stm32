@@ -70,7 +70,7 @@ RUN mkdir -p ${PYTHON_PATH}; \
   tar xf ${PYTHON_ZIP}; \
 cd Python-3.6.14; \
 cat configure; \
-./configure --prefix=${PYTHON_PATH} --enable-shared; \
+./configure --prefix=${PYTHON_PATH} --enable-shared LDFLAGS="-Wl,-rpath ${PYTHON_PATH}/usr/local/lib"; \
 make -j"$(nproc)"; \
 make install -j"$(nproc)"; \
 
