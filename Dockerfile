@@ -67,21 +67,21 @@ RUN mkdir -p $PREFIX && cd $PREFIX; \
   tar xf ${PYTHON_ZIP}; \
 ls -la; 
 
-$ ../path/to/Python-3.6.14/configure --prefix=$PREFIX --enable-shared
-$ make -j16
-$ make install -j16
+# $ ../path/to/Python-3.6.14/configure --prefix=$PREFIX --enable-shared
+# $ make -j16
+# $ make install -j16
 
 # We can see that we've produced shared library (.so file successfully):
 
-$ find . -name libpython3.6m.so.1.0
-./libpython3.6m.so.1.0
-./lib/libpython3.6m.so.1.0
+# $ find . -name libpython3.6m.so.1.0
+# ./libpython3.6m.so.1.0
+# ./lib/libpython3.6m.so.1.0
 
 # Trick is to tell GDB where to look for shared libs with LD_LIBRARY_PATH environment variable.
 
 
-$ LD_LIBRARY_PATH=/tmp/tt/python3.6/lib ./bin/arm-none-eabi-gdb --version
-GNU gdb (GNU Toolchain for the Arm Architecture 11.2-2022.02 (arm-11.14)) 11.2.90.20220202-git
+# $ LD_LIBRARY_PATH=/tmp/tt/python3.6/lib ./bin/arm-none-eabi-gdb --version
+# GNU gdb (GNU Toolchain for the Arm Architecture 11.2-2022.02 (arm-11.14)) 11.2.90.20220202-git
 
 
 # stage 2  
