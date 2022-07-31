@@ -69,15 +69,14 @@ RUN mkdir -p ${PYTHON_PATH}; \
   wget -O ${PYTHON_ZIP} ${PYTHON_LINK}; \
   tar xf ${PYTHON_ZIP}; \
 ls -laR; \
-cat Makefile;
-
-# $ ../path/to/Python-3.6.14/configure --prefix=$PREFIX --enable-shared
-# make -j"$(nproc)"; \
-# make install -j"$(nproc)"; \
+cat Python-3.6.14/configure;
+Python-3.6.14/configure --prefix=${PYTHON_PATH} --enable-shared
+make -j"$(nproc)"; \
+make install -j"$(nproc)"; \
 
 # We can see that we've produced shared library (.so file successfully):
 
-# $ find . -name libpython3.6m.so.1.0
+find . -name libpython3.6m.so.1.0
 # ./libpython3.6m.so.1.0
 # ./lib/libpython3.6m.so.1.0
 
