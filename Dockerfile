@@ -76,9 +76,10 @@ COPY --from=builder ${TOOLCHAIN_ROOT} ${TOOLCHAIN_ROOT}
 RUN apt update && apt install -y \
     make \
     cmake \
+    gdb-multiarch \
 #    ccache \ 
-    python3 \
-    libpython-all-dev \
+#    python3 \
+#    libpython-all-dev \
     stlink-tools; \ 
   apt clean; \
   ln -s ${TOOLCHAIN_PATH}/bin/* /usr/local/bin; \
