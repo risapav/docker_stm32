@@ -106,12 +106,9 @@ COPY --from=builder ${TOOLCHAIN_ROOT} ${TOOLCHAIN_ROOT}
 
 # install apps
 RUN apt update && apt install -y \
-    python3.6 \
     make \
     cmake \
     gdb-multiarch \
-#    ccache \ 
-#    libpython-all-dev \
     stlink-tools; \ 
   apt clean; \
   ln -s ${TOOLCHAIN_PATH}/bin/* /usr/local/bin; \
