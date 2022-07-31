@@ -37,6 +37,7 @@ ARG TOOLS_LINK="https://developer.arm.com/tools-and-software/open-source-softwar
 
 # install crosscompile toolchain
 RUN apt update && apt install -y \
+    make \
     gcc \
 # toolchain install
     wget \
