@@ -1,6 +1,5 @@
 #STM32 development tools
 
-
 # supply your pub key via `--build-arg ssh_pub_key="$(cat ~/.ssh/id_rsa.pub)"` when running `docker build`
 # docker build example:
 # docker build --build-arg SSH_PUB_KEY="$(cat ~/.ssh/id_rsa.pub)" --build-arg USERNAME=$USER -t sshd .
@@ -102,25 +101,3 @@ RUN apt update && apt install -y \
     echo "export OD=${TOOLCHAIN_PREFIX}-objdump"; \
     echo "export FC=${TOOLCHAIN_PREFIX}-gfortran"; \
   } >> /etc/profile; 
-#  ls -la ${TOOLCHAIN_PATH}/bin; 
-
-#ENV SHELL=/bin/bash \
-#    LD_LIBRARY_PATH=${TOOLCHAIN_PATH}/lib:$LD_LIBRARY_PATH \
-#    CC=${TOOLCHAIN_PREFIX}-gcc \
-#    CXX=${TOOLCHAIN_PREFIX}-g++ \
-#    CMAKE_C_COMPILER=${TOOLCHAIN_PREFIX}-gcc \
-#    CMAKE_CXX_COMPILER=${TOOLCHAIN_PREFIX}-g++ \
-#    STRIP=${TOOLCHAIN_PREFIX}-strip \
-#    RANLIB=${TOOLCHAIN_PREFIX}-ranlib \
-#    AS=${TOOLCHAIN_PREFIX}-as \
-#    AR=${TOOLCHAIN_PREFIX}-ar \
-#    LD=${TOOLCHAIN_PREFIX}-ld \
-#    FC=${TOOLCHAIN_PREFIX}-gfortran \
-#    OD=$(TOOLCHAIN_PREFIX)-objdump \
-##    BIN=$(TOOLCHAIN_PREFIX)-objcopy -O ihex \
-#    SIZE=$(TOOLCHAIN_PREFIX)-size \
-#    GDB=$(TOOLCHAIN_PREFIX)-gdb 
-
-# EXPOSE 3333 
-
-# CMD ["/bin/bash"]
